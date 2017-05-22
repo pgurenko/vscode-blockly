@@ -1,0 +1,3 @@
+[submodule "src/editor/blockly"]
+	path = src/editor/blockly
+	url = https://github.com/pgurenko/blockly

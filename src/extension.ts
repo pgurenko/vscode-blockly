@@ -25,11 +25,11 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('blockly.showBlockly', showBlockly));
 	context.subscriptions.push(vscode.commands.registerCommand('blockly.showBlocklyToSide', uri => showBlockly(uri, true)));
 	context.subscriptions.push(vscode.commands.registerCommand('blockly.showSource', showSource));
+
+	showBlockly();
 }
 
 function showBlockly(uri?: vscode.Uri, sideBySide: boolean = false) {
-    vscode.window.showInformationMessage('showBlockly!');
-
 	let resource = uri;
 	if (!(resource instanceof vscode.Uri)) {
 		if (vscode.window.activeTextEditor) {
@@ -50,7 +50,7 @@ function showBlockly(uri?: vscode.Uri, sideBySide: boolean = false) {
 	const thenable = vscode.commands.executeCommand('vscode.previewHtml',
 		getBlocklyUri(resource),
 		getViewColumn(sideBySide),
-		`Preview '${path.basename(resource.fsPath)}'`);
+		`Blockly Editor - '${path.basename(resource.fsPath)}'`);
 
 	return thenable;
 }

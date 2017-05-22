@@ -1,7 +1,7 @@
 {
     "name": "blockly",
     "displayName": "Blockly",
-    "description": "",
+    "description": "Blockly Editor For VSCode",
     "version": "1.0.0",
     "publisher": "pgurenko",
     "engines": {
@@ -11,10 +11,15 @@
         "Other"
     ],
     "activationEvents": [
-        "*"
+        "onLanguage:blockly"
     ],
     "main": "./out/src/extension",
     "contributes": {
+        "languages": [{
+            "id": "blockly",
+            "extensions": [ ".blockly" ],
+            "aliases": [ "Blockly", "blockly" ]
+        }],
         "commands": [{
             "command": "blockly.showBlockly",
             "title": "Show Blockly Editor"

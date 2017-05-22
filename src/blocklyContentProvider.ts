@@ -56,7 +56,7 @@ export class BlocklyContentProvider implements vscode.TextDocumentContentProvide
 				line: initialLine
 			};
 
-            return fs.readFileSync(path.join(this.context.extensionPath, "src/blockly/index.html"), "utf8");
+            return fs.readFileSync(path.join(this.context.extensionPath, "src/editor/index.html"), "utf8");
 		});
 	}
 };
