@@ -40,23 +40,7 @@ export class BlocklyContentProvider implements vscode.TextDocumentContentProvide
 		return vscode.Uri.file(this.context.asAbsolutePath(path.join('media', mediaFile))).toString();
 	}
 
-	public provideTextDocumentContent(uri: vscode.Uri): Thenable<string> {
-		const sourceUri = vscode.Uri.parse(uri.query);
-
-		let initialLine: number | undefined = undefined;
-		const editor = vscode.window.activeTextEditor;
-		if (editor && editor.document.uri.fsPath === sourceUri.fsPath) {
-			initialLine = editor.selection.active.line;
-		}
-
-		return vscode.workspace.openTextDocument(sourceUri).then(document => {
-			const initialData = {
-				previewUri: uri.toString(),
-				source: sourceUri.toString(),
-				line: initialLine
-			};
-
-            return fs.readFileSync(path.join(this.context.extensionPath, "src/editor/index.html"), "utf8");
-		});
+	public provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<string> {
+		return fs.readFileSync(path.join(this.context.extensionPath, "src/editor/index.html"), "utf8");
 	}
 };

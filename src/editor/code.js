@@ -147,6 +147,17 @@ Code.init = function() {
   Code.workspace.setVisible(true);
 
   Blockly.svgResize(Code.workspace);
+
+  Code.workspace.addChangeListener(Code.onChange);
+};
+
+Code.onChange = function (event) {
+  console.log(event.type);
+
+  var text = window.btoa(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(Code.workspace)));
+  var saveElem = document.getElementById('save');
+  saveElem.href = 'command:blockly.save?"' + text +'"';
+  saveElem.click();
 };
 
 window.addEventListener('load', Code.init);

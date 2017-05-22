@@ -31,6 +31,10 @@
         {
             "command": "blockly.showSource",
             "title": "Show Source"
+        },
+        {
+            "command": "blockly.save",
+            "title": "Save"
         }
         ],
         "keybindings": [{

@@ -25,6 +25,7 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(vscode.commands.registerCommand('blockly.showBlockly', showBlockly));
 	context.subscriptions.push(vscode.commands.registerCommand('blockly.showBlocklyToSide', uri => showBlockly(uri, true)));
 	context.subscriptions.push(vscode.commands.registerCommand('blockly.showSource', showSource));
+	context.subscriptions.push(vscode.commands.registerCommand('blockly.save', save));
 
 	showBlockly();
 }
@@ -75,12 +76,12 @@ function getViewColumn(sideBySide: boolean): vscode.ViewColumn | undefined {
 	return active.viewColumn;
 }
 
-function showSource(mdUri: vscode.Uri) {
-	if (!mdUri) {
+function showSource(uri: vscode.Uri) {
+	if (!uri) {
 		return vscode.commands.executeCommand('workbench.action.navigateBack');
 	}
 
-	const docUri = vscode.Uri.parse(mdUri.query);
+	const docUri = vscode.Uri.parse(uri.query);
 	for (const editor of vscode.window.visibleTextEditors) {
 		if (editor.document.uri.scheme === docUri.scheme && editor.document.uri.fsPath === docUri.fsPath) {
 			return vscode.window.showTextDocument(editor.document, editor.viewColumn);
@@ -89,6 +90,11 @@ function showSource(mdUri: vscode.Uri) {
 
 	return vscode.workspace.openTextDocument(docUri)
 		.then(vscode.window.showTextDocument);
+}
+
+function save(uri: vscode.Uri) {
+	console.log('save!!!');
+	console.log(Buffer.from(uri.toString(), 'base64').toString());
 }
 
 function getPackageInfo(): IPackageInfo | null {
