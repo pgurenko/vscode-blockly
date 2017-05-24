@@ -127,6 +127,8 @@ Code.init = function() {
   // Construct the toolbox XML.
   var toolboxText = document.getElementById('toolbox').outerHTML;
   var toolboxXml = Blockly.Xml.textToDom(toolboxText);
+  var settingsText = document.getElementById('settings').outerHTML;
+  var settingsXml = Blockly.Xml.textToDom(settingsText);
 
   Code.workspace = Blockly.inject('content_area',
       {grid:
@@ -134,7 +136,7 @@ Code.init = function() {
            length: 3,
            colour: '#ccc',
            snap: true},
-       media: 'file:///C:/Users/Pavel/Documents/vscode-blockly/src/editor/blockly/media/',
+       media: settingsXml.getElementsByTagName('media')[0].innerHTML,
        rtl: rtl,
        toolbox: toolboxXml,
        zoom:
@@ -152,8 +154,6 @@ Code.init = function() {
 };
 
 Code.onChange = function (event) {
-  console.log(event.type);
-
   var text = window.btoa(Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(Code.workspace)));
   var saveElem = document.getElementById('save');
   saveElem.href = 'command:blockly.save?"' + text +'"';

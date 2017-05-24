@@ -40,26 +40,24 @@ export class BlocklyContentProvider implements vscode.TextDocumentContentProvide
 		return vscode.Uri.file(this.context.asAbsolutePath(path.join('media', mediaFile))).toString();
 	}
 
+	public relativeToAbsolute(start:string, html:string):string {
+		var pos = html.indexOf(start);
+		while(pos != -1) {
+			html = [
+				html.substr(0, pos+start.length),
+				'file:///', path.join(this.context.extensionPath, "src/editor/"), 
+				html.substr(pos+start.length)].join('');
+			console.log(html.substr(pos, 100));
+			pos = html.indexOf(start, pos + 1);
+		}
+		return html;
+	}
+
 	public provideTextDocumentContent(uri: vscode.Uri, token: vscode.CancellationToken): vscode.ProviderResult<string> {
 		var editorHtml = fs.readFileSync(path.join(this.context.extensionPath, "src/editor/index.html"), "utf8");
-		
-		var pos = editorHtml.indexOf('href="');
-		if(pos != -1) {
-			editorHtml = [
-				editorHtml.substr(0, pos+6), 
-				'file:///', path.join(this.context.extensionPath, "src/editor/"),
-				editorHtml.substr(pos+6)].join('');
-		}
-
-		pos = editorHtml.indexOf('src="');
-		while(pos != -1) {
-			editorHtml = [
-				editorHtml.substr(0, pos+5),
-				'file:///', path.join(this.context.extensionPath, "src/editor/"), 
-				editorHtml.substr(pos+5)].join('');
-			console.log(editorHtml.substr(pos, 100));
-			pos = editorHtml.indexOf('src="', pos + 1);
-		}
+		editorHtml = this.relativeToAbsolute('href="', editorHtml);
+		editorHtml = this.relativeToAbsolute('src="', editorHtml);
+		editorHtml = this.relativeToAbsolute('<media>', editorHtml);
 		return editorHtml;
 	}
 };

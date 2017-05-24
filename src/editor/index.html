@@ -13,7 +13,7 @@
   <script src="msg/en.js"></script>
   <script src="code.js"></script>
 
-  <a id="save" onclick='Code.save()'>Save!</a>
+  <a id="save" onclick='Code.save()' style="display: none"></a>
 
   <table width="100%" height="100%">
     <tr>
@@ -21,6 +21,10 @@
       </td>
     </tr>
   </table>
+
+  <xml id="settings" style="display: none">
+    <media>blockly/media/</media>
+  </xml>
 
   <xml id="toolbox" style="display: none">
     <category name="%{BKY_CATLOGIC}" colour="%{BKY_LOGIC_HUE}">
