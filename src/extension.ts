@@ -34,7 +34,7 @@ function showBlockly(uri?: vscode.Uri, sideBySide: boolean = false) {
 	let resource = uri;
 	if (!(resource instanceof vscode.Uri)) {
 		if (vscode.window.activeTextEditor) {
-			// we are relaxed and don't check for markdown files
+			// we are relaxed and don't check for blockly files
 			resource = vscode.window.activeTextEditor.document.uri;
 		}
 	}
@@ -47,6 +47,8 @@ function showBlockly(uri?: vscode.Uri, sideBySide: boolean = false) {
 		// nothing found that could be shown or toggled
 		return;
 	}
+
+	vscode.window.activeTextEditor.hide();
 
 	const thenable = vscode.commands.executeCommand('vscode.previewHtml',
 		getBlocklyUri(resource),
@@ -93,8 +95,24 @@ function showSource(uri: vscode.Uri) {
 }
 
 function save(uri: vscode.Uri) {
-	console.log('save!!!');
-	console.log(Buffer.from(uri.toString(), 'base64').toString());
+	var xml = Buffer.from(uri.toString(), 'base64').toString();
+
+	var edit = new vscode.WorkspaceEdit();
+	//edit.set()
+	//vscode.workspace.applyEdit()
+	for (const doc of vscode.workspace.textDocuments) {
+		if(doc.uri.scheme == 'blockly') {
+			console.log('document scheme=' + doc.uri.scheme);
+		}
+		
+		// if (editor.document.uri.scheme === uri.scheme && editor.document.uri.fsPath === uri.fsPath) {
+		// 	//return vscode.window.showTextDocument(editor.document, editor.viewColumn);
+		// }
+	}
+
+	// return vscode.workspace.openTextDocument(uri)
+	// 	.then(vscode.window.showTextDocument);
+
 }
 
 function getPackageInfo(): IPackageInfo | null {

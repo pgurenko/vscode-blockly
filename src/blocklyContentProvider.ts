@@ -47,7 +47,6 @@ export class BlocklyContentProvider implements vscode.TextDocumentContentProvide
 				html.substr(0, pos+start.length),
 				'file:///', path.join(this.context.extensionPath, "src/editor/"), 
 				html.substr(pos+start.length)].join('');
-			console.log(html.substr(pos, 100));
 			pos = html.indexOf(start, pos + 1);
 		}
 		return html;
